@@ -1,40 +1,31 @@
 import { Component, OnInit } from '@angular/core';
 import { MessageService, ConfirmationService } from 'primeng/api';
-import { BookInfoService, Book } from '../../services/book-info.service'
+import { BookInfoService, IBook, IUser } from '../../services/book-info.service'
 
 @Component({
   selector: 'app-book-list',
   templateUrl: './book-list.component.html',
   styleUrls: ['./book-list.component.scss'],
-  styles: [`
-        :host ::ng-deep .p-dialog .product-image {
-            width: 150px;
-            margin: 0 auto 2rem auto;
-            display: block;
-        }
-    `],
 })
 export class BookListComponent implements OnInit {
 
-  books!: Book[];
-  book!: Book;
+  loginDialog: Boolean = true;
+  books!: IBook[];
+  book!: IBook;
   displayDialog!: boolean;
-  bookForDialog!: Book;
-
+  bookForDialog!: IBook;
+  user !: IUser
+  nome!: string
   bookDialog!: boolean;
-
-  selectedBooks!: Book[] | null;
-
+  selectedBooks!: IBook[] | null;
   submitted!: boolean;
-
   statuses!: any[];
-
 
   constructor(private bookInfoService: BookInfoService, private messageService: MessageService, private confirmationService: ConfirmationService) { }
 
   ngOnInit() {
-     this.getAllBooks()
-    
+  if(!this.loginDialog)
+   this.getAllBooks();
 
     this.statuses = [
       {label: 'Quero Ler', value: 'QUERO_LER'},
@@ -43,27 +34,15 @@ export class BookListComponent implements OnInit {
   ];
   }
 
-  // clonedBooks: { [s: string]: Book; } = {};
-
-  // onRowEditInit(book: Book) {
-  //   console.log('Row edit initialized');
-  //   this.clonedBooks[book.title] = { ...book };
-  // }
-
-  // onRowEditSave(book: Book) {
-  //   console.log('Row edit saved');
-  //   this.bookInfoService.updateBook(book)
-  //   .subscribe( data => {
-  //     this.ngOnInit();
-  //     alert("Book Updated successfully.");
-  //   });
-  // }
-
-  // onRowEditCancel(book: Book, index: number) {
-  //   console.log('Row edit cancelled');
-  //   this.books[index] = this.clonedBooks[book.title];
-  //   delete this.clonedBooks[book.title];
-  // }
+  makeLogin(){
+    this.loginDialog = false;
+    this.bookInfoService.login(this.nome)
+    .subscribe(data => {
+      this.user = data.data;
+      this.bookInfoService.setUserId(this.user)
+      this.ngOnInit();
+    })
+  }
 
    getAllBooks(){
     this.bookInfoService.getAllBooks().subscribe(data => {
@@ -145,12 +124,12 @@ deleteSelectedProducts() {
     });
 }
 
-editProduct(book: Book) {
+editProduct(book: IBook) {
     this.book = {...book};
     this.bookDialog = true;
 }
 
-deleteProduct(book: Book) {
+deleteProduct(book: IBook) {
     this.confirmationService.confirm({
         message: 'Are you sure you want to delete ' + book.title + '?',
         header: 'Confirm',

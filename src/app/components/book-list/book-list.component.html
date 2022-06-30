@@ -1,12 +1,21 @@
 <p-toast></p-toast>
-
+<p-dialog [(visible)]="loginDialog" [style]="{width: '100%', height: '100%'}" header="Login" [modal]="true" styleClass="p-fluid">
+    <ng-template pTemplate="content" [style] = "{ margin: auto }">
+        <div class="field">
+            <label for="name">Username</label>
+            <input type="text" pInputText id="title" [(ngModel)]="user" required autofocus />
+            <div [style]="{ width: '100px'}">
+                <button pButton pRipple label="Login" icon="pi pi-check" class="p-button-text" (click)="makeLogin()"></button>
+            </div>
+        </div>
+    </ng-template>
+</p-dialog>
 <div class="card">
     <p-toolbar styleClass="mb-4">
         <ng-template pTemplate="left">
             <button pButton pRipple label="Novo" icon="pi pi-plus" class="p-button-success mr-2" (click)="openNew()"></button>
         </ng-template>
     </p-toolbar>
-
     <p-table #dt [value]="books" [rows]="10" [paginator]="true" responsiveLayout="scroll"
         [(selection)]="selectedBooks" [rowHover]="true" dataKey="id"
         currentPageReportTemplate="Showing {first} to {last} of {totalRecords} entries" [showCurrentPageReport]="true">
@@ -40,7 +49,6 @@
         </ng-template>
     </p-table>
 </div>
-
 <p-dialog [(visible)]="bookDialog" [style]="{width: '450px', height: '400px'}" header="Detalhe dos livros" [modal]="true" styleClass="p-fluid">
     <ng-template pTemplate="content">
         <div class="field">
@@ -69,5 +77,4 @@
         <button pButton pRipple label="Edit" icon="pi pi-check" class="p-button-text" (click)="editBook()"></button>
     </ng-template>
 </p-dialog>
-
 <p-confirmDialog [style]="{width: '450px'}"></p-confirmDialog>

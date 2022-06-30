@@ -3,7 +3,7 @@
 import { Injectable } from '@angular/core';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 
-export interface Book {
+export interface IBook {
   bookId: any;
   title: string;
   author: string;
@@ -13,29 +13,43 @@ export interface Book {
   userId?: any;
 }
 
+export interface IUser{
+  name: string;
+  id?: any;
+}
+
 @Injectable({
   providedIn: 'root'
 })
 export class BookInfoService {
 
+  userSaved!: IUser;
   webApiUrl: string = 'http://localhost:3000/books';
-  header = new HttpHeaders({ 'user_id': '82ed40cd-1730-4cbb-8608-d38f85d268d1'} )
 
-  constructor(private http: HttpClient) {}
+  constructor(private http: HttpClient) {
+  }
 
-      getAllBooks(){
-        return this.http.get<any>(this.webApiUrl, {headers: this.header})
-      }
+  setUserId(user: IUser){
+    this.userSaved = user;
+  }
 
-      public updateBook(book: Book) {
-        return this.http.put<Book>("http://localhost:3000/books" + "/"+ book.bookId, book, {headers: this.header});
-      }
-      
-      public deleteBook(book: Book) {
-        return this.http.delete<Book>("http://localhost:3000/books" + "/"+ book.bookId, {headers: this.header});
-      }
+  public login(user: string){
+    return this.http.post<any>('http://localhost:3000/user', { "name": user})
+  }
 
-      public createBook(book: Book) {
-        return this.http.post<Book>("http://localhost:3000/books", book, {headers: this.header});
-      }
+  getAllBooks() {
+    return this.http.get<any>(this.webApiUrl, { headers: new HttpHeaders({ 'user_id': this.userSaved.id }) })
+  }
+
+  public updateBook(book: IBook) {
+    return this.http.put<IBook>("http://localhost:3000/books" + "/" + book.bookId, book, { headers: new HttpHeaders({ 'user_id': this.userSaved.id }) });
+  }
+
+  public deleteBook(book: IBook) {
+    return this.http.delete<IBook>("http://localhost:3000/books" + "/" + book.bookId, { headers: new HttpHeaders({ 'user_id': this.userSaved.id }) });
+  }
+
+  public createBook(book: IBook) {
+    return this.http.post<IBook>("http://localhost:3000/books", book, { headers: new HttpHeaders({ 'user_id': this.userSaved.id }) });
+  }
 }
