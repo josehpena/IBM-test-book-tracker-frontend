@@ -1,0 +1,73 @@
+<p-toast></p-toast>
+
+<div class="card">
+    <p-toolbar styleClass="mb-4">
+        <ng-template pTemplate="left">
+            <button pButton pRipple label="Novo" icon="pi pi-plus" class="p-button-success mr-2" (click)="openNew()"></button>
+        </ng-template>
+    </p-toolbar>
+
+    <p-table #dt [value]="books" [rows]="10" [paginator]="true" responsiveLayout="scroll"
+        [(selection)]="selectedBooks" [rowHover]="true" dataKey="id"
+        currentPageReportTemplate="Showing {first} to {last} of {totalRecords} entries" [showCurrentPageReport]="true">
+        <ng-template pTemplate="caption">
+            <div class="flex align-items-center justify-content-between">
+                <h5 class="m-0">Administrar livros</h5>
+            </div>
+        </ng-template>
+        <ng-template pTemplate="header">
+            <tr>
+                <th pSortableColumn="title">Titulo<p-sortIcon field="title"></p-sortIcon></th>
+                <th pSortableColumn="author">Autor<p-sortIcon field="author"></p-sortIcon></th>
+                <th pSortableColumn="finishedAt">Termino<p-sortIcon field="finishedAt"></p-sortIcon></th>
+                <th pSortableColumn="status">Status<p-sortIcon field="status"></p-sortIcon></th>
+                <th pSortableColumn="grade">Reviews<p-sortIcon field="grade"></p-sortIcon></th>
+                <th></th>
+            </tr>
+        </ng-template>
+        <ng-template pTemplate="body" let-book>
+            <tr>
+                <td>{{book.title}}</td>
+                <td>{{book.author}}</td>
+                <td>{{book.finishedAt}}</td>
+                <td>{{book.status}}</td>
+                <td><p-rating [ngModel]="book.grade" [readonly]="true" [cancel]="false"></p-rating></td>
+                <td>
+                    <button pButton pRipple icon="pi pi-pencil" class="p-button-rounded p-button-success mr-2" (click)="editProduct(book)"></button>
+                    <button pButton pRipple icon="pi pi-trash" class="p-button-rounded p-button-warning" (click)="deleteProduct(book)"></button>
+                </td>
+            </tr>
+        </ng-template>
+    </p-table>
+</div>
+
+<p-dialog [(visible)]="bookDialog" [style]="{width: '450px', height: '400px'}" header="Detalhe dos livros" [modal]="true" styleClass="p-fluid">
+    <ng-template pTemplate="content">
+        <div class="field">
+            <label for="name">Titulo</label>
+            <input type="text" pInputText id="title" [(ngModel)]="book.title" required autofocus />
+            <small class="p-error" *ngIf="submitted && !book.title">Campo nome é obrigatorio.</small>
+        </div>
+        <div class="field">
+            <label for="author">Autor</label>
+            <input type="text" pInputText id="author" [(ngModel)]="book.author" required autofocus />
+            <small class="p-error" *ngIf="submitted && !book.author">Campo autor é obrigatorio.</small>
+        </div>
+        <div class="field">
+            <label for="bookStatus">Status do livro</label>
+            <p-dropdown [(ngModel)]="book.status" inputId="bookStatus" [options]="statuses" placeholder="Select">
+                <ng-template let-option pTemplate="item">
+                    <span [class]="'product-badge status-' + option.value">{{option.label}}</span>
+                </ng-template>
+            </p-dropdown>
+        </div>
+    </ng-template>
+
+    <ng-template pTemplate="footer">
+        <button pButton pRipple label="Cancel" icon="pi pi-times" class="p-button-text" (click)="hideDialog()"></button>
+        <button pButton pRipple label="Save" icon="pi pi-check" class="p-button-text" (click)="saveBook()"></button>
+        <button pButton pRipple label="Edit" icon="pi pi-check" class="p-button-text" (click)="editBook()"></button>
+    </ng-template>
+</p-dialog>
+
+<p-confirmDialog [style]="{width: '450px'}"></p-confirmDialog>
