@@ -53,13 +53,6 @@ export class BookListComponent implements OnInit {
     });
   }
 
-  // onBookAdd(){
-  // //   this.bookForDialog = {
-  // //    title: null, author: null
-  // // };
-  //   this.displayDialog = true;
-  // }
-
   editBook() {
     this.bookInfoService.updateBook(this.book)
     .subscribe( data => {
@@ -113,6 +106,13 @@ editProduct(book: IBook) {
     this.btnSave = false;
 }
 
+statusOk(book: IBook): boolean{
+  if( book.status != "LIDO")
+    return true
+  else 
+    return false
+}
+
 deleteProduct(book: IBook) {
     this.confirmationService.confirm({
         message: 'Are you sure you want to delete ' + book.title + '?',
@@ -136,45 +136,5 @@ hideDialog() {
     this.bookDialog = false;
     this.submitted = false;
 }
-
-// saveProduct() {
-//     this.submitted = true;
-
-//     if (this.book.title.trim()) {
-//         if (this.book.bookId) {
-//             this.books[this.findIndexById(this.book.bookId)] = this.book;
-//             this.messageService.add({severity:'success', summary: 'Successful', detail: 'Product Updated', life: 3000});
-//         }
-//         else {
-//           this.bookInfoService.createBook(this.bookForDialog)
-//           .subscribe( data => {
-//             this.ngOnInit();
-//             alert("Book Created successfully.");
-//           })
-    
-//             this.messageService.add({severity:'success', summary: 'Successful', detail: 'Product Created', life: 3000});
-//         }
-
-//         this.books = [...this.books];
-//         this.bookDialog = false;
-//         this.book = {
-//           title: "",
-//           author: "",
-//           bookId: ""
-//         };
-//     }
-// }
-
-// findIndexById(id: string): number {
-//     let index = -1;
-//     for (let i = 0; i < this.books.length; i++) {
-//         if (this.books[i].bookId === id) {
-//             index = i;
-//             break;
-//         }
-//     }
-
-//     return index;
-// }
 
 }

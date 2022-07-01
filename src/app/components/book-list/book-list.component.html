@@ -40,7 +40,7 @@
                 <td>{{book.author}}</td>
                 <td>{{book.finishedAt}}</td>
                 <td>{{book.status}}</td>
-                <td><p-rating [ngModel]="book.grade" (onRate)="updateRating(book, $event)" [cancel]="false"></p-rating></td>
+                <td><p-rating [ngModel]="book.grade" [disabled]="statusOk(book)" (onRate)="updateRating(book, $event)" [cancel]="false"></p-rating></td>
                 <td>
                     <button pButton pRipple icon="pi pi-pencil" class="p-button-rounded p-button-success mr-2" (click)="editProduct(book)"></button>
                     <button pButton pRipple icon="pi pi-trash" class="p-button-rounded p-button-warning" (click)="deleteProduct(book)"></button>
