@@ -52,4 +52,8 @@ export class BookInfoService {
   public createBook(book: IBook) {
     return this.http.post<IBook>("http://localhost:3000/books", book, { headers: new HttpHeaders({ 'user_id': this.userSaved.id }) });
   }
+
+  public editRate(book: IBook, rate: any) {
+    return this.http.put<IBook>("http://localhost:3000/books/changegrade/" + book.bookId, rate , { headers: new HttpHeaders({ 'user_id': this.userSaved.id }) });
+  }
 }

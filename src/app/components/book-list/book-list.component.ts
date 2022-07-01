@@ -64,7 +64,7 @@ export class BookListComponent implements OnInit {
     this.bookInfoService.updateBook(this.book)
     .subscribe( data => {
       this.ngOnInit();
-      this.messageService.add({severity:'success', summary: 'Successful', detail: 'Product Edited', life: 3000});
+      this.messageService.add({severity:'success', summary: 'Successful', detail: 'Livro editado', life: 3000});
     })
     this.bookDialog = false;
     this.book = {
@@ -74,12 +74,10 @@ export class BookListComponent implements OnInit {
   }
 
   saveBook(){
-    console.log('Book Saved');
-    console.log(this.book)
     this.bookInfoService.createBook(this.book)
     .subscribe( data => {
       this.ngOnInit();
-      this.messageService.add({severity:'success', summary: 'Successful', detail: 'Product Created', life: 3000});
+      this.messageService.add({severity:'success', summary: 'Successful', detail: 'Liro salvo', life: 3000});
     });
    
     this.bookDialog = false;
@@ -87,6 +85,13 @@ export class BookListComponent implements OnInit {
       title: "",
       author: "",
     };
+  }
+
+  updateRating(book: IBook, event: any){
+    this.bookInfoService.editRate(book, { grade : event.value})
+    .subscribe( () => {
+      this.messageService.add({severity:'success', summary: 'Successful', detail: 'Nota atualizada', life: 3000});
+    });
   }
 
 
@@ -114,11 +119,10 @@ deleteProduct(book: IBook) {
         header: 'Confirm',
         icon: 'pi pi-exclamation-triangle',
         accept: () => {
-          console.log(book);
             this.bookInfoService.deleteBook(book)
-            .subscribe( data => {
+            .subscribe( () => {
               this.ngOnInit();
-              this.messageService.add({severity:'success', summary: 'Successful', detail: 'Product Deleted', life: 3000});
+              this.messageService.add({severity:'success', summary: 'Successful', detail: 'Produto deletado', life: 3000});
             });
             this.book = {
               title: "",
