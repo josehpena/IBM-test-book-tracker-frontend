@@ -4,7 +4,7 @@ import { Injectable } from '@angular/core';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 
 export interface IBook {
-  bookId: any;
+  bookId?: any;
   title: string;
   author: string;
   finishedAt?: Date;

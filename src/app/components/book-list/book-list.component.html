@@ -70,11 +70,10 @@
             </p-dropdown>
         </div>
     </ng-template>
-
     <ng-template pTemplate="footer">
+        <button pButton pRipple [ngClass]="btnSave ? 'show' : 'hide'" label="Save" icon="pi pi-check" class="p-button-text" (click)="saveBook()"></button>
+        <button pButton pRipple [ngClass]="btnEdit ? 'show' : 'hide'" label="Edit" icon="pi pi-check" class="p-button-text" (click)="editBook()"></button>
         <button pButton pRipple label="Cancel" icon="pi pi-times" class="p-button-text" (click)="hideDialog()"></button>
-        <button pButton pRipple label="Save" icon="pi pi-check" class="p-button-text" (click)="saveBook()"></button>
-        <button pButton pRipple label="Edit" icon="pi pi-check" class="p-button-text" (click)="editBook()"></button>
     </ng-template>
 </p-dialog>
 <p-confirmDialog [style]="{width: '450px'}"></p-confirmDialog>

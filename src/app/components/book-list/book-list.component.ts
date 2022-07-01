@@ -16,6 +16,8 @@ export class BookListComponent implements OnInit {
   bookForDialog!: IBook;
   user !: IUser
   nome!: string
+  btnEdit: boolean = true;
+  btnSave: boolean = true;
   bookDialog!: boolean;
   selectedBooks!: IBook[] | null;
   submitted!: boolean;
@@ -51,16 +53,6 @@ export class BookListComponent implements OnInit {
     });
   }
 
-  // deleteBook(book: Book) {
-  //   console.log('Book Deleted');
-     
-    // this.bookInfoService.deleteBook(book)
-    //   .subscribe( data => {
-    //     this.ngOnInit();
-    //     alert("Book Deleted successfully.");
-    //   });
-  // }
-
   // onBookAdd(){
   // //   this.bookForDialog = {
   // //    title: null, author: null
@@ -78,7 +70,6 @@ export class BookListComponent implements OnInit {
     this.book = {
       title: "",
       author: "",
-      bookId: ""
     };
   }
 
@@ -95,7 +86,6 @@ export class BookListComponent implements OnInit {
     this.book = {
       title: "",
       author: "",
-      bookId: ""
     };
   }
 
@@ -104,29 +94,18 @@ export class BookListComponent implements OnInit {
     this.book = {
       title: "",
       author: "",
-      bookId: ""
     };
     this.submitted = false;
     this.bookDialog = true;
-}
-
-deleteSelectedProducts() {
-    this.confirmationService.confirm({
-        message: 'Are you sure you want to delete the selected books?',
-        header: 'Confirm',
-        icon: 'pi pi-exclamation-triangle',
-        accept: () => {
-          
-            this.books = this.books.filter(val => !this.selectedBooks?.includes(val));
-            this.selectedBooks = null;
-            this.messageService.add({severity:'success', summary: 'Successful', detail: 'Products Deleted', life: 3000});
-        }
-    });
+    this.btnSave = true;
+    this.btnEdit = false;
 }
 
 editProduct(book: IBook) {
     this.book = {...book};
     this.bookDialog = true;
+    this.btnEdit = true;
+    this.btnSave = false;
 }
 
 deleteProduct(book: IBook) {
@@ -135,7 +114,7 @@ deleteProduct(book: IBook) {
         header: 'Confirm',
         icon: 'pi pi-exclamation-triangle',
         accept: () => {
-            this.books = this.books.filter(val => val.bookId !== book.bookId);
+          console.log(book);
             this.bookInfoService.deleteBook(book)
             .subscribe( data => {
               this.ngOnInit();
@@ -144,9 +123,7 @@ deleteProduct(book: IBook) {
             this.book = {
               title: "",
               author: "",
-              bookId: ""
             };
-            
         }
     });
 }
