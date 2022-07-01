@@ -3,7 +3,7 @@
     <ng-template pTemplate="content" [style] = "{ margin: auto }">
         <div class="field">
             <label for="name">Username</label>
-            <input type="text" pInputText id="title" [(ngModel)]="user" required autofocus />
+            <input type="text" pInputTextid="nome" [(ngModel)]="nome" required autofocus />
             <div [style]="{ width: '100px'}">
                 <button pButton pRipple label="Login" icon="pi pi-check" class="p-button-text" (click)="makeLogin()"></button>
             </div>
@@ -38,7 +38,7 @@
             <tr>
                 <td>{{book.title}}</td>
                 <td>{{book.author}}</td>
-                <td>{{book.finishedAt}}</td>
+                <td>{{book.finishedAt|date: "MM/dd/yyyy HH:mm:ss"}}</td>
                 <td>{{book.status}}</td>
                 <td><p-rating [ngModel]="book.grade" [disabled]="statusOk(book)" (onRate)="updateRating(book, $event)" [cancel]="false"></p-rating></td>
                 <td>

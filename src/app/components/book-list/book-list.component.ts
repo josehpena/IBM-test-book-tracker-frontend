@@ -23,6 +23,8 @@ export class BookListComponent implements OnInit {
   submitted!: boolean;
   statuses!: any[];
 
+  
+
   constructor(private bookInfoService: BookInfoService, private messageService: MessageService, private confirmationService: ConfirmationService) { }
 
   ngOnInit() {
@@ -48,7 +50,6 @@ export class BookListComponent implements OnInit {
 
    getAllBooks(){
     this.bookInfoService.getAllBooks().subscribe(data => {
-      console.log(data.data);
       this.books = data.data;
     });
   }
